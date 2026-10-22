@@ -41,7 +41,18 @@ class Player(): #TODO: Finish player class
             "leggings" : "None",
             "boots": "None"
                 }
-        self.inventory = []
+        self.inventory = [    
+                { #Dynamically grows
+                    "minor_health_potion" : 
+                    {
+                        "type" : "potion",
+                        "potion_type" : "health",
+                        "strength" : "1", #1 is lowest possible strength
+                        "available" : 1,
+                    }
+                },
+                
+            ]
         self.mainhand = {
             "item_equipped" : False,
             "item_name" : "None",
@@ -57,6 +68,36 @@ class Player(): #TODO: Finish player class
     
     def get_hp(self):
         return self.hp
+
+    def use_item(self, page, itemIdx):
+        print("using item")
+        item = ""
+        realItemIdx = (itemIdx - 1) + (10 * (page - 1))
+        for itemName, itemData in self.inventory[realItemIdx].items():
+            item = itemName
+        print("Used", item)
+
+    def get_item_list(self, page = 1):
+        itemsPerPage = 10
+        startIdx = (page - 1) * itemsPerPage
+        endIdx = startIdx + itemsPerPage
+
+        pageItems = self.inventory[startIdx:endIdx]
+
+        if not pageItems:
+            return "No items found on ts page"
+
+        itemList = ""
+
+        for i, itemDict in enumerate(pageItems, start=startIdx + 1):
+            for itemName, itemData in itemDict.items():
+                available = itemData.get("available", 0)
+                itemList += f"{i} - {itemName} (Amount: {available})\n"
+        
+        itemList += f"page {page}"
+
+        return itemList 
+                
 
     def get_atk_pwr(self):
         totalPower = self.atkPwr
@@ -98,6 +139,9 @@ class Enemy(): #TODO: Finish enemy class
         return self.name
 
     def calculate_defence(self):
+        pass
+
+    def turn(self, player): #AI attack player type sitch TODO: Implement (do calc def above first)
         pass
 
     def attempt_escape(self, player):
@@ -150,14 +194,27 @@ def create_fight(enemyInformation = {}):
             newHealth = enemy.hit(playerAttack)
             print(f"Dealt {playerAttack} damage!")
             print(f"{enemy.get_name()} has {newHealth}hp left!")
+            enemy.turn(player)
         elif options == "run" or options == "r":
             can_escape = enemy.attempt_escape(player)
             if can_escape:
                 print("Escaped!")
+                break
             else:
                 print("Failed escape")
+                enemy.turn(player)
         elif options == "item" or options == "i":
-            pass
+            page = 1
+            while True:
+                print(player.get_item_list(page))
+                print("Type page [page] to go to another page")
+                item = input("Please enter the number of item you wish to use: ")
+                if item.startswith("page"):
+                    newPage = item.split(" ")
+                    page = int(newPage[1])
+                    continue
+                player.use_item(page, int(item))
+                enemy.turn(player)
         else:
             print("That is not a valid action!")
             input_pause()
