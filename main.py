@@ -1,13 +1,14 @@
 import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import time
-import pygame
+from pygame import mixer
 import random
 import json
 
 #print("Josh has become death")
 #print("I am the bringer of death")
 
-pygame.mixer.init()
+mixer.init()
 
 equipment_list = {}
 
@@ -27,7 +28,7 @@ def playSound(sound, name):
         soundList[name].stop()
         del soundList[name]
 
-    soundTrack = pygame.mixer.Sound(sound)
+    soundTrack = mixer.Sound(sound)
 
     soundList[name] = soundTrack
 
@@ -59,7 +60,7 @@ class Player(): #TODO: Finish player class
                     {
                         "type" : "potion",
                         "potion_type" : "health",
-                        "strength" : "1", #1 is lowest possible strength
+                        "strength" : 1, #1 is lowest possible strength
                         "available" : 1,
                     }
                 },
@@ -110,6 +111,23 @@ class Player(): #TODO: Finish player class
 
         return itemList 
                 
+    def inventory_action(self):
+        action = input("What would you like to do?\n1 - check inventory\n2 - check armor\n3 - change equipment\n4 - use item\n").strip()
+        if action == "1":
+            while True:
+                page = input("Enter the page you wish to go to (or exit): ")
+                if page == "exit":
+                    break
+                print(self.get_item_list(int(page)))
+                
+        elif action == "2":
+            pass
+        elif action == "3":
+            pass
+        elif action == "4":
+            pass
+        else:
+            print("Invalid action")
 
     def get_atk_pwr(self):
         totalPower = self.atkPwr
@@ -199,25 +217,29 @@ class Enemy(): #TODO: Finish enemy class
         rarity = self.get_rarity()
 
         helmetName, helmetStats = random.choice(list(equipment_list["Armor"][rarity]["Helmets"].items()))
-        print(helmetName, "\n", helmetStats)
+        self.armor["helmet"] = {helmetName : helmetStats}
+        print(self.armor)
 
     def pick_chestplate(self):
         rarity = self.get_rarity()
 
         chestplateName, chestplateStats = random.choice(list(equipment_list["Armor"][rarity]["Chestplates"].items()))
-        print(chestplateName, "\n", chestplateStats)
+        self.armor["chestplate"] = {chestplateName : chestplateStats}
+        print(self.armor)
     
     def pick_leggings(self):
         rarity = self.get_rarity()
 
         leggingsName, leggingsStats = random.choice(list(equipment_list["Armor"][rarity]["Leggings"].items()))
-        print(leggingsName, "\n", leggingsStats)
+        self.armor["leggings"] = {leggingsName : leggingsStats}
+        print(self.armor)
 
     def pick_boots(self):
         rarity = self.get_rarity()
 
         bootsName, bootsStats = random.choice(list(equipment_list["Armor"][rarity]["Boots"].items()))
-        print(bootsName, "\n", bootsStats)
+        self.armor["boots"] = {bootsName : bootsStats}
+        print(self.armor)
 
     def build_enemy(self, information):
         self.level = float(information["level"])
@@ -257,8 +279,18 @@ class Enemy(): #TODO: Finish enemy class
 
         #Add more stuff here tbf
 
+#e1 = Enemy()
+#e1.build_enemy({"name" : "Slime", "level" : "9"})
+
+player = Player()
+
 def input_pause():
-    input("Please press enter to continue... ")
+    while True:
+        action = input("Press [enter] to continue or press [i] to do an action: ").lower().strip()
+        if action == "i" or action == "inventory":
+            player.inventory_action()
+            continue
+        break
 
 def create_fight(enemyInformation = {}):
     ranAway = False
@@ -322,7 +354,6 @@ if cont == "n" or cont == "no":
 
 print("Great. Let the story begin.")
 input_pause()
-player = Player()
 
 print("You think to yourself, 'What a wonderful morning! I can't wait to start adventuring today, I wonder what foes await me!'")
 input_pause()
