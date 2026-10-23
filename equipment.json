@@ -1,0 +1,185 @@
+{
+    "Armor": {
+        "Wooden": {
+            "Helmets": {
+                "grians_starter_helmet": { "def": 1 },
+                "oak_helmet": { "def": 1 },
+                "birch_helmet": { "def": 2 },
+                "spruce_helmet": { "def": 2 }
+            },
+            "Chestplates": {
+                "grians_starter_chestplate": { "def": 2 },
+                "oak_chestplate": { "def": 2 },
+                "birch_chestplate": { "def": 3 },
+                "spruce_chestplate": { "def": 4 }
+            },
+            "Leggings": {
+                "grians_starter_leggings": { "def": 2 },
+                "oak_leggings": { "def": 2 },
+                "birch_leggings": { "def": 2 },
+                "spruce_leggings": { "def": 3 }
+            },
+            "Boots": {
+                "grians_starter_boots": { "def": 1 },
+                "oak_boots": { "def": 1 },
+                "birch_boots": { "def": 1 },
+                "spruce_boots": { "def": 2 }
+            }
+        },
+        "Stone": {
+            "Helmets": {
+                "cobblestone_helmet": { "def": 3 },
+                "deepslate_helmet": { "def": 4 },
+                "andesite_helmet": { "def": 3 }
+            },
+            "Chestplates": {
+                "cobblestone_chestplate": { "def": 5 },
+                "deepslate_chestplate": { "def": 6 },
+                "andesite_chestplate": { "def": 6 }
+            },
+            "Leggings": {
+                "cobblestone_leggings": { "def": 4 },
+                "deepslate_leggings": { "def": 5 },
+                "andesite_leggings": { "def": 4 }
+            },
+            "Boots": {
+                "cobblestone_boots": { "def": 3 },
+                "deepslate_boots": { "def": 4 },
+                "andesite_boots": { "def": 3 }
+            }
+        },
+        "Iron": {
+            "Helmets": {
+                "iron_helmet": { "def": 6 },
+                "steel_helmet": { "def": 7 },
+                "chainmail_helmet": { "def": 5 }
+            },
+            "Chestplates": {
+                "iron_chestplate": { "def": 10 },
+                "steel_chestplate": { "def": 12 },
+                "chainmail_chestplate": { "def": 9 }
+            },
+            "Leggings": {
+                "iron_leggings": { "def": 8 },
+                "steel_leggings": { "def": 9 },
+                "chainmail_leggings": { "def": 7 }
+            },
+            "Boots": {
+                "iron_boots": { "def": 6 },
+                "steel_boots": { "def": 7 },
+                "chainmail_boots": { "def": 5 }
+            }
+        },
+        "Diamond": {
+            "Helmets": {
+                "diamond_helmet": { "def": 12 },
+                "reinforced_diamond_helmet": { "def": 14 },
+                "enchanted_diamond_helmet": { "def": 13 }
+            },
+            "Chestplates": {
+                "diamond_chestplate": { "def": 18 },
+                "reinforced_diamond_chestplate": { "def": 21 },
+                "enchanted_diamond_chestplate": { "def": 20 }
+            },
+            "Leggings": {
+                "diamond_leggings": { "def": 15 },
+                "reinforced_diamond_leggings": { "def": 17 },
+                "enchanted_diamond_leggings": { "def": 16 }
+            },
+            "Boots": {
+                "diamond_boots": { "def": 12 },
+                "reinforced_diamond_boots": { "def": 14 },
+                "enchanted_diamond_boots": { "def": 13 }
+            }
+        },
+        "Netherite": {
+            "Helmets": {
+                "netherite_helmet": { "def": 25 },
+                "ancient_netherite_helmet": { "def": 28 },
+                "forged_netherite_helmet": { "def": 30 }
+            },
+            "Chestplates": {
+                "netherite_chestplate": { "def": 35 },
+                "ancient_netherite_chestplate": { "def": 38 },
+                "forged_netherite_chestplate": { "def": 42 }
+            },
+            "Leggings": {
+                "netherite_leggings": { "def": 30 },
+                "ancient_netherite_leggings": { "def": 33 },
+                "forged_netherite_leggings": { "def": 36 }
+            },
+            "Boots": {
+                "netherite_boots": { "def": 25 },
+                "ancient_netherite_boots": { "def": 28 },
+                "forged_netherite_boots": { "def": 30 }
+            }
+        }
+    },
+    "Weapons": {
+        "Wooden": {
+            "Long Swords": {
+                "oak_longsword": { "atk": 4 },
+                "birch_longsword": { "atk": 5 }
+            },
+            "Short Swords": {
+                "oak_shortsword": { "atk": 3 },
+                "birch_shortsword": { "atk": 3 }
+            },
+            "Katanas": {
+                "bamboo_katana": { "atk": 5 }
+            }
+        },
+        "Stone": {
+            "Long Swords": {
+                "cobblestone_longsword": { "atk": 8 },
+                "deepslate_longsword": { "atk": 9 }
+            },
+            "Short Swords": {
+                "cobblestone_shortsword": { "atk": 6 },
+                "andesite_shortsword": { "atk": 7 }
+            },
+            "Katanas": {
+                "granite_katana": { "atk": 10 }
+            }
+        },
+        "Iron": {
+            "Long Swords": {
+                "iron_longsword": { "atk": 14 },
+                "steel_longsword": { "atk": 16 }
+            },
+            "Short Swords": {
+                "iron_shortsword": { "atk": 11 },
+                "wrought_iron_shortsword": { "atk": 12 }
+            },
+            "Katanas": {
+                "folded_steel_katana": { "atk": 17 }
+            }
+        },
+        "Diamond": {
+            "Long Swords": {
+                "diamond_longsword": { "atk": 22 },
+                "reinforced_diamond_longsword": { "atk": 25 }
+            },
+            "Short Swords": {
+                "diamond_shortsword": { "atk": 18 },
+                "crystal_shortsword": { "atk": 20 }
+            },
+            "Katanas": {
+                "diamond_katana": { "atk": 26 }
+            }
+        },
+        "Netherite": {
+            "Long Swords": {
+                "netherite_longsword": { "atk": 32 },
+                "ancient_netherite_longsword": { "atk": 36 }
+            },
+            "Short Swords": {
+                "netherite_shortsword": { "atk": 27 },
+                "gilded_netherite_shortsword": { "atk": 30 }
+            },
+            "Katanas": {
+                "forged_netherite_katana": { "atk": 38 }
+            }
+        }
+    }
+}

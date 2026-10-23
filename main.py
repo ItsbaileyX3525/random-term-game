@@ -3,9 +3,15 @@ import time
 from playsound import playsound
 import random
 import threading
+import json
 
 #print("Josh has become death")
 #print("I am the bringer of death")
+
+equipment_list = {}
+
+with open("equipment.json" , "r", encoding="utf-8") as f:
+    equipment_list = json.load(f)
 
 sounds = {
     "fight_start" : "sounds/pokemon-battle.mp3",
@@ -138,10 +144,7 @@ class Enemy(): #TODO: Finish enemy class
     def get_name(self):
         return self.name
 
-    def calculate_defence(self):
-        pass
-
-    def turn(self, player): #AI attack player type sitch TODO: Implement (do calc def above first)
+    def turn(self, player):
         pass
 
     def attempt_escape(self, player):
@@ -170,13 +173,82 @@ class Enemy(): #TODO: Finish enemy class
             self.hp = 0.0
         return self.hp
 
+    def get_rarity(self):
+        tiers = ["Wooden", "Stone", "Iron", "Diamond", "Netherite"]
+
+        level = clamp(self.level, 3, 50)
+
+        if level >= 50:
+            return "Netherite"
+
+        targetIdx = (level - 3) / 47.0 * 4.0
+
+        chosenIdx = int(round(random.gauss(targetIdx, .8)))
+
+        chosenIdx = clamp(chosenIdx, 0, len(tiers) - 1)
+
+        return tiers[chosenIdx]
+
+    def pick_helmet(self):
+        rarity = self.get_rarity()
+
+        helmetName, helmetStats = random.choice(list(equipment_list["Armor"][rarity]["Helmets"].items()))
+        print(helmetName, "\n", helmetStats)
+
+    def pick_chestplate(self):
+        rarity = self.get_rarity()
+
+        chestplateName, chestplateStats = random.choice(list(equipment_list["Armor"][rarity]["Chestplates"].items()))
+        print(chestplateName, "\n", chestplateStats)
+    
+    def pick_leggings(self):
+        rarity = self.get_rarity()
+
+        leggingsName, leggingsStats = random.choice(list(equipment_list["Armor"][rarity]["Leggings"].items()))
+        print(leggingsName, "\n", leggingsStats)
+
+    def pick_boots(self):
+        rarity = self.get_rarity()
+
+        bootsName, bootsStats = random.choice(list(equipment_list["Armor"][rarity]["Boots"].items()))
+        print(bootsName, "\n", bootsStats)
+
     def build_enemy(self, information):
         self.level = float(information["level"])
         base_hp = 10
         real_hp = base_hp * random.uniform((self.level) * .8, (self.level) * 1.2)
+        
+        helmetChance = 0
+        chestplateChance = 0
+        leggingsChance = 0
+        bootsChance = 0
+
         self.hp = real_hp
         self.max_hp = real_hp
         self.name = information["name"]
+
+        self.atkPwr = clamp((self.level * random.uniform(.1, 1.425)), .8, 999999999)
+        self.defence = self.level * random.uniform(0, 1.35)
+
+        if self.level >= 3: #Start gaining armor at level 3 onwards
+            helmetRN = random.randint(0, 10)
+            chestplateRN = random.randint(0, 10)
+            leggingsRN = random.randint(0, 10)
+            bootsRN = random.randint(0, 10)
+            helmetChance = helmetRN * (self.level * .8)
+            chestplateChance = chestplateRN * (self.level * .8)
+            leggingsChance = leggingsRN * (self.level * .8)
+            bootsChance = bootsRN * (self.level * .8)
+
+            if helmetChance >= 45: #Helmet and boots don't provide as much protection like minecraft :3
+                self.pick_helmet()
+            if chestplateChance >= 60:
+                self.pick_chestplate()
+            if leggingsChance >= 60:
+                self.pick_leggings()
+            if bootsChance >= 45:
+                self.pick_boots()
+
         #Add more stuff here tbf
 
 def input_pause():
@@ -207,14 +279,16 @@ def create_fight(enemyInformation = {}):
             page = 1
             while True:
                 print(player.get_item_list(page))
-                print("Type page [page] to go to another page")
+                print("Type 'page [page]' to go to another page or 'quit' to finish")
                 item = input("Please enter the number of item you wish to use: ")
                 if item.startswith("page"):
                     newPage = item.split(" ")
                     page = int(newPage[1])
                     continue
+                elif item.startswith("exit"):
+                    break
                 player.use_item(page, int(item))
-                enemy.turn(player)
+            enemy.turn(player)
         else:
             print("That is not a valid action!")
             input_pause()
