@@ -1,14 +1,17 @@
 import os
 import time
-from playsound import playsound
+import pygame
 import random
-import threading
 import json
 
 #print("Josh has become death")
 #print("I am the bringer of death")
 
+pygame.mixer.init()
+
 equipment_list = {}
+
+soundList = {}
 
 with open("equipment.json" , "r", encoding="utf-8") as f:
     equipment_list = json.load(f)
@@ -19,13 +22,16 @@ sounds = {
     "doit" : "sounds/doit.mp3",
         }
 
-def _playsound(sound):
-    playsound(sound)
+def playSound(sound, name):
+    if name in soundList:
+        soundList[name].stop()
+        del soundList[name]
 
-def playSound(sound):
-    t1 = threading.Thread(target=_playsound, args=(sound,))
-    t1.start()
-    return
+    soundTrack = pygame.mixer.Sound(sound)
+
+    soundList[name] = soundTrack
+
+    soundTrack.play()
 
 def clamp(n, min, max):
     if n < min:
@@ -255,7 +261,8 @@ def input_pause():
     input("Please press enter to continue... ")
 
 def create_fight(enemyInformation = {}):
-    playSound(sounds["fight_start"])
+    ranAway = False
+    playSound(sounds["fight_start"], "battle_start")
     enemy = Enemy()
     enemy.build_enemy(enemyInformation)
     newHealth = 0.0
@@ -271,6 +278,7 @@ def create_fight(enemyInformation = {}):
             can_escape = enemy.attempt_escape(player)
             if can_escape:
                 print("Escaped!")
+                ranAway = True
                 break
             else:
                 print("Failed escape")
@@ -295,10 +303,12 @@ def create_fight(enemyInformation = {}):
             continue
 
         input_pause()
-    print("Enemy killed!")
+    if not ranAway:
+        print("Enemy killed!")
+    return
 
 
-#playsound("Downloads/genug.mp3")
+#playsound("Downloads/genug.mp3", "genug")
 
 print("Welcome to your journey")
 input_pause()
@@ -317,7 +327,7 @@ player = Player()
 print("You think to yourself, 'What a wonderful morning! I can't wait to start adventuring today, I wonder what foes await me!'")
 input_pause()
 
-playSound(sounds["doit"])
+playSound(sounds["doit"], "doit")
 cont = input("You look around and just a little ahead of you, you see a slime, just minding its own business. Would you like to go attack it? (y/N) ").lower().strip()
 
 if cont == "n" or cont == "no" or cont == "":
